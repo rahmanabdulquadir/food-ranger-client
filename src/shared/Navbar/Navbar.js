@@ -5,13 +5,26 @@ import { AuthContext } from "../../contexts/AuthProvider";
 const Navbar = () => {
   const {name, user, logOut} = useContext(AuthContext)
   const menuItems = <>
-  <li><Link to={'/'}>Home</Link></li>
-  <li><Link to={'/blog'}>Blogs</Link></li>
+  {
+    user?.email ? <>
+    <li><Link to={'/'}>Home</Link></li>
+    <li><Link to={'/services'}>Services</Link></li>
+    <li><Link to={'/reviews'}>My Reviews</Link></li>
+    <li><Link to={'/add_services'}>Add Service</Link></li>
+    <li><Link to={'/blog'}>Blogs</Link></li>
+    </>
+    :
+    <>
+    <li><Link to={'/'}>Home</Link></li>
+    <li><Link to={'/services'}>Services</Link></li>
+    <li><Link to={'/blog'}>Blogs</Link></li>
+    </>
+  }
   </>;
 
   const handleLogOut = () => {
     logOut()
-    .then(res => {})
+    .then()
     .catch(err => console.error(err))
   }
   return (
@@ -50,9 +63,13 @@ const Navbar = () => {
       </div>
       <div className="navbar-end">
         <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-          <div className="w-10 rounded-full">
-            <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+          {
+            user?.email ? <div className="w-10 rounded-full">
+            <img src={user.photoURL} />
+          </div> : <div className="w-10 rounded-full">
+            <img src='' />
           </div>
+          }
         </label>
         {
           user?.email ? 
